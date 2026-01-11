@@ -11,9 +11,8 @@ namespace LibraryManagementSystem.Models
         [MaxLength(200)]
         public string Title { get; set; }
 
-        [Required]
-        [MaxLength(150)]
-        public string Author { get; set; }
+        public int AuthorId { get; set; }
+        public Author Author { get; set; }
 
         public int Year { get; set; }
 
