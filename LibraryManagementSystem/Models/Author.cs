@@ -20,6 +20,8 @@ namespace LibraryManagementSystem.Models
         //[Display(Name = "Nazwisko")]
         public string LastName { get; set; }
 
+        public string FullName => FirstName + " " + LastName;
+
         // Relacja 1:N (Autor -> Książki)
         public ICollection<Book> Books { get; set; } = new List<Book>();
     }
