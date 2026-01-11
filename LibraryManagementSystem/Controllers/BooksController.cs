@@ -21,7 +21,7 @@ namespace LibraryManagementSystem.Controllers
         // GET: Books
         public async Task<IActionResult> Index()
         {
-            var libraryDbContext = _context.Books.Include(b => b.Category);
+            var libraryDbContext = _context.Books.Include(b => b.Author).Include(b => b.Category);
             return View(await libraryDbContext.ToListAsync());
         }
 
@@ -34,6 +34,7 @@ namespace LibraryManagementSystem.Controllers
             }
 
             var book = await _context.Books
+                .Include(b => b.Author)
                 .Include(b => b.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (book == null)
@@ -46,7 +47,8 @@ namespace LibraryManagementSystem.Controllers
 
         // GET: Books/Create
         public IActionResult Create()
-        {   
+        {
+            ViewData["AuthorId"] = new SelectList(_context.Authors, "Id", "Id");
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
             return View();
         }
@@ -56,7 +58,7 @@ namespace LibraryManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Author,Year,ISBN,Category,CategoryId")] Book book)
+        public async Task<IActionResult> Create([Bind("Id,Title,AuthorId,Year,ISBN,CategoryId")] Book book)
         {
             if (ModelState.IsValid)
             {
@@ -64,7 +66,7 @@ namespace LibraryManagementSystem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
+            ViewData["AuthorId"] = new SelectList(_context.Authors, "Id", "Id", book.AuthorId);
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", book.CategoryId);
             return View(book);
         }
@@ -82,6 +84,7 @@ namespace LibraryManagementSystem.Controllers
             {
                 return NotFound();
             }
+            ViewData["AuthorId"] = new SelectList(_context.Authors, "Id", "Id", book.AuthorId);
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", book.CategoryId);
             return View(book);
         }
@@ -91,7 +94,7 @@ namespace LibraryManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Author,Year,ISBN,CategoryId")] Book book)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,AuthorId,Year,ISBN,CategoryId")] Book book)
         {
             if (id != book.Id)
             {
@@ -118,6 +121,7 @@ namespace LibraryManagementSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["AuthorId"] = new SelectList(_context.Authors, "Id", "Id", book.AuthorId);
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", book.CategoryId);
             return View(book);
         }
@@ -131,6 +135,7 @@ namespace LibraryManagementSystem.Controllers
             }
 
             var book = await _context.Books
+                .Include(b => b.Author)
                 .Include(b => b.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (book == null)
