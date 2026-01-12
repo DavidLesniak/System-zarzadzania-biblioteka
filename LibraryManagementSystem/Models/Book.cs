@@ -13,6 +13,9 @@ namespace LibraryManagementSystem.Models
         public string Title { get; set; }
 
         public int AuthorId { get; set; }
+
+        [ForeignKey("AuthorId")]
+        [ValidateNever]
         public Author Author { get; set; }
 
         public int Year { get; set; }
