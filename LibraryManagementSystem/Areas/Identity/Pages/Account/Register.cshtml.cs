@@ -154,8 +154,9 @@ namespace LibraryManagementSystem.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        //await _signInManager.SignInAsync(user, isPersistent: false);
+                        //return LocalRedirect(returnUrl);
+                        return RedirectToPage("Login");
                     }
                 }
                 foreach (var error in result.Errors)
