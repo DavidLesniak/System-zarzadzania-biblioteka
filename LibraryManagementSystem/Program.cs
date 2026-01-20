@@ -35,28 +35,85 @@ using (var scope = app.Services.CreateScope())
         }
     }
 
-    // 2. Przypisanie Admina do konta
-    var adminEmail = "admin@gmail.com";
+    // 2. Tworzenie u¿ytkowników i przypisywanie ról
 
+    // Admin
+    var adminEmail = "admin@gmail.com";
+    var adminPassword = "Admin123!";
     var adminUser = await userManager.FindByEmailAsync(adminEmail);
-    if (adminUser != null)
+    if (adminUser == null)
     {
-        if (!await userManager.IsInRoleAsync(adminUser, "Admin"))
+        adminUser = new ApplicationUser
         {
-            await userManager.AddToRoleAsync(adminUser, "Admin");
+            UserName = adminEmail,
+            Email = adminEmail,
+            EmailConfirmed = true,
+            FirstName = "Admin",
+            LastName = "User"
+        };
+        var result = await userManager.CreateAsync(adminUser, adminPassword);
+        if (!result.Succeeded)
+        {
+            throw new Exception($"B³¹d przy tworzeniu u¿ytkownika Admin: {string.Join(", ", result.Errors.Select(e => e.Description))}");
         }
     }
-
-    var employeeEmail = "pracownik@gmail.com";
-    var employeeUser = await userManager.FindByEmailAsync(employeeEmail);
-    if (employeeUser != null)
+    if (!await userManager.IsInRoleAsync(adminUser, "Admin"))
     {
-        if (!await userManager.IsInRoleAsync(employeeUser, "Employee"))
+        await userManager.AddToRoleAsync(adminUser, "Admin");
+    }
+
+    // Pracownik
+    var employeeEmail = "pracownik@gmail.com";
+    var employeePassword = "Pracownik123!";
+    var employeeUser = await userManager.FindByEmailAsync(employeeEmail);
+    if (employeeUser == null)
+    {
+        employeeUser = new ApplicationUser
         {
-            await userManager.AddToRoleAsync(employeeUser, "Employee");
+            UserName = employeeEmail,
+            Email = employeeEmail,
+            EmailConfirmed = true,
+            FirstName = "Jan",
+            LastName = "Kowalski"
+        };
+        var result = await userManager.CreateAsync(employeeUser, employeePassword);
+        if (!result.Succeeded)
+        {
+            throw new Exception($"B³¹d przy tworzeniu u¿ytkownika Employee: {string.Join(", ", result.Errors.Select(e => e.Description))}");
         }
+    }
+    if (!await userManager.IsInRoleAsync(employeeUser, "Employee"))
+    {
+        await userManager.AddToRoleAsync(employeeUser, "Employee");
+    }
+
+    // User
+    var usereEmail = "czytelnik@gmail.com";
+    var userPassword = "Czytelnik123!";
+    var user = await userManager.FindByEmailAsync(usereEmail);
+    if (user == null)
+    {
+        user = new ApplicationUser
+        {
+            UserName = usereEmail,
+            Email = usereEmail,
+            EmailConfirmed = true,
+            FirstName = "Roman",
+            LastName = "Kranc"
+        };
+        var result = await userManager.CreateAsync(user, userPassword);
+        if (!result.Succeeded)
+        {
+            throw new Exception($"B³¹d przy tworzeniu u¿ytkownika User: {string.Join(", ", result.Errors.Select(e => e.Description))}");
+        }
+    }
+    if (!await userManager.IsInRoleAsync(user, "User"))
+    {
+        await userManager.AddToRoleAsync(user, "User");
     }
 }
+
+
 
 if (!app.Environment.IsDevelopment())
 {
