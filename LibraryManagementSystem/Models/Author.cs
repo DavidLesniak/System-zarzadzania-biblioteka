@@ -6,18 +6,12 @@ namespace LibraryManagementSystem.Models
     {
         public int Id { get; set; }
 
-        //[Required(ErrorMessage = "Imię autora jest wymagane")]
-        //[MaxLength(100, ErrorMessage = "Imię może mieć maksymalnie 100 znaków")]
-        //[RegularExpression(@"^[a-zA-ZąćęłńóśżźĄĆĘŁŃÓŚŻŹ- ]+$",
-            //ErrorMessage = "Imię może zawierać tylko litery")]
-        //[Display(Name = "Imię")]
+        [Required(ErrorMessage = "Imię jest wymagane")]
+        [StringLength(50, ErrorMessage = "Imię nie może być dłuższe niż 50 znaków")]
         public string FirstName { get; set; }
 
-        //[Required(ErrorMessage = "Nazwisko autora jest wymagane")]
-        //[MaxLength(100, ErrorMessage = "Nazwisko może mieć maksymalnie 100 znaków")]
-        //[RegularExpression(@"^[a-zA-ZąćęłńóśżźĄĆĘŁŃÓŚŻŹ- ]+$",
-            //ErrorMessage = "Nazwisko może zawierać tylko litery")]
-        //[Display(Name = "Nazwisko")]
+        [Required(ErrorMessage = "Nazwisko jest wymagane")]
+        [StringLength(50, ErrorMessage = "Nazwisko nie może być dłuższe niż 50 znaków")]
         public string LastName { get; set; }
 
         public string FullName => FirstName + " " + LastName;

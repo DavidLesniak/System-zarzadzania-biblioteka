@@ -73,11 +73,13 @@ namespace LibraryManagementSystem.Areas.Identity.Pages.Account
         {
             [Required]
             [Display(Name = "First Name")]
+            [RegularExpression(@"^[a-zA-ZĄąĆćĘęŁłŃńÓóŚśŹźŻż ]+$", ErrorMessage = "Imię może zawierać tylko litery")]
             [StringLength(255, ErrorMessage = "Max 255 znaków")]
             public string FirstName { get; set; }
 
             [Required]
             [Display(Name = "Last Name")]
+            [RegularExpression(@"^[a-zA-ZĄąĆćĘęŁłŃńÓóŚśŹźŻż ]+$", ErrorMessage = "Nazwisko może zawierać tylko litery")]
             [StringLength(255, ErrorMessage = "Max 255 znaków")]
             public string LastName { get; set; }
 

@@ -25,7 +25,7 @@ using (var scope = app.Services.CreateScope())
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-    // 1. Tworzenie ról, jeœli nie istniej¹
+    // 1. Tworzenie rï¿½l, jeï¿½li nie istniejï¿½
     string[] roleNames = { "Admin", "User", "Employee" };
     foreach (var roleName in roleNames)
     {
@@ -35,7 +35,7 @@ using (var scope = app.Services.CreateScope())
         }
     }
 
-    // 2. Tworzenie u¿ytkowników i przypisywanie ról
+    // 2. Tworzenie uï¿½ytkownikï¿½w i przypisywanie rï¿½l
 
     // Admin
     var adminEmail = "admin@gmail.com";
@@ -54,7 +54,7 @@ using (var scope = app.Services.CreateScope())
         var result = await userManager.CreateAsync(adminUser, adminPassword);
         if (!result.Succeeded)
         {
-            throw new Exception($"B³¹d przy tworzeniu u¿ytkownika Admin: {string.Join(", ", result.Errors.Select(e => e.Description))}");
+            throw new Exception($"Bï¿½ï¿½d przy tworzeniu uï¿½ytkownika Admin: {string.Join(", ", result.Errors.Select(e => e.Description))}");
         }
     }
     if (!await userManager.IsInRoleAsync(adminUser, "Admin"))
@@ -79,7 +79,7 @@ using (var scope = app.Services.CreateScope())
         var result = await userManager.CreateAsync(employeeUser, employeePassword);
         if (!result.Succeeded)
         {
-            throw new Exception($"B³¹d przy tworzeniu u¿ytkownika Employee: {string.Join(", ", result.Errors.Select(e => e.Description))}");
+            throw new Exception($"Bï¿½ï¿½d przy tworzeniu uï¿½ytkownika Employee: {string.Join(", ", result.Errors.Select(e => e.Description))}");
         }
     }
     if (!await userManager.IsInRoleAsync(employeeUser, "Employee"))
@@ -104,7 +104,7 @@ using (var scope = app.Services.CreateScope())
         var result = await userManager.CreateAsync(user, userPassword);
         if (!result.Succeeded)
         {
-            throw new Exception($"B³¹d przy tworzeniu u¿ytkownika User: {string.Join(", ", result.Errors.Select(e => e.Description))}");
+            throw new Exception($"Bï¿½ï¿½d przy tworzeniu uï¿½ytkownika User: {string.Join(", ", result.Errors.Select(e => e.Description))}");
         }
     }
     if (!await userManager.IsInRoleAsync(user, "User"))
